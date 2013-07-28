@@ -8,6 +8,7 @@
             }
             .Success{
                 background-color: green;
+				 
             }
             .Failure{
                 background-color: red;
@@ -15,19 +16,35 @@
             .item {
                 font-weight: bold;
                 float: left;
-                margin: 4px;
-                width: 40%;
-                font-size: 33px;
-                height: 118px;
+                margin: 1%;
+                width: 18%;
+                font-size: 23px;
+                height: 75px;
                 border-radius: 10px;
                 padding: 10px;
             }
+            .small{
+                font-size:12px;
+                
+            }
+            .Building{
+			 background-color: orange;
+/*			 background: url("/images/animated-overlay.gif");*/
+			
+            }
+			.Sleeping{
+			}
+			.build{
+				position: relative;
+			}
         </style>
     </head>
     <body>
         <div id="container" data-bind="foreach: projects">
-            <div class='item' data-bind="css: $.lastBuildStatus">
-                <span data-bind="text: $.name"></span>
+            <div class='item' data-bind="css: cssStyle()">
+				<span data-bind="text: name"></span>
+				
+                
             </div>
         </div>
 
@@ -37,15 +54,38 @@
             src="/javascripts/knockout-2.3.0.js"></script>
 
         <script type='text/javascript'>
-            function AppViewModel() {
-                this.projects =ko.observableArray([]);
-            }
-var appViewModel = new AppViewModel();
-ko.applyBindings(appViewModel);
-io = io.connect();
-io.emit('tray')
-io.on('talk', function(data) {
-        appViewModel.projects(data.message.Projects.Project);
+		function ProjectModel(project){
+			var self = this;
+			self.activity = project.$.activity;
+			self.lastBuildLabel = project.$.lastBuildLabel;
+			self.lastBuildStatus = project.$.lastBuildStatus;
+			self.lastBuildTime = project.$.lastBuildTime;
+			self.name = project.$.name;
+			self.webUrl = project.$.webUrl;
+			self.cssStyle = function() {
+				if (self.activity == "Building"){
+					return "Building"
+				}else{
+					return self.lastBuildStatus;
+				}
+				
+			    }
+		}
+        function AppViewModel() {
+              this.projects =ko.observableArray([]);
+        }
+		var appViewModel = new AppViewModel();
+		ko.applyBindings(appViewModel);
+		io = io.connect();
+		io.emit('tray')
+		io.on('talk', function(data) {
+			processedData =[];
+			for (var i=0;i<data.message.Projects.Project.length;i++)
+			{ 
+				processedData.push(new ProjectModel(data.message.Projects.Project[i]));
+			}
+        	console.log(processedData);
+        	appViewModel.projects(processedData);
         }); 
 </script>
 <script type="text/javascript" defer="defer"></script>

@@ -77,7 +77,7 @@ app.get('/', routes.index);
 
 app.io.route('tray', function(req) {
     
-	
+	getXml(req);
 	setInterval(function(){ 
 		getXml(req);
 		
