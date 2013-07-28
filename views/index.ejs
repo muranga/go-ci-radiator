@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="/javascripts/jquery-1.10.2.min.js"></script>
-	 
-	
-	<script>
-	$(document).ready(function(){
-		io = io.connect()
+    <head>
+        <title><%= title %></title>
+        <style type="text/css" media="screen">
+            body{
+                background-color:black;
+            }
+            .Success{
+                background-color: green;
+            }
+            .Failure{
+                background-color: red;
+            }
+            .item {
+                font-weight: bold;
+                float: left;
+                margin: 4px;
+                width: 40%;
+                font-size: 33px;
+                height: 118px;
+                border-radius: 10px;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" data-bind="foreach: projects">
+            <div class='item' data-bind="css: $.lastBuildStatus">
+                <span data-bind="text: $.name"></span>
+            </div>
+        </div>
 
-	
-		io.emit('tray') 
+        <p></p>
+        <script src="/socket.io/socket.io.js"></script>
+        <script
+            src="/javascripts/knockout-2.3.0.js"></script>
 
-	
-		io.on('talk', function(data) {
-		    $('#container').html(" ");
-			$(data.message.Projects.Project).each(function(key,project){
-				$('#container').append("<div class=item>"+project.$.name+"</div>");
-				console.log(key,project);
-			});
-		})  
-	  
-		 
-		 
-		
-	});
-	
-	</script>
-	<style type="text/css" media="screen">
-	.item { 
-		font-size:35px;
-	
-		background-color: green;
-		margin: 40px;
-		height: 100px; }
-	.item.w2 { width: 50%; }
-	</style>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-	<div id="container">
-	 
-	</div>
-	
-    <p></p>
-  </body>
+        <script type='text/javascript'>
+            function AppViewModel() {
+                this.projects =ko.observableArray([]);
+            }
+var appViewModel = new AppViewModel();
+ko.applyBindings(appViewModel);
+io = io.connect();
+io.emit('tray')
+io.on('talk', function(data) {
+        appViewModel.projects(data.message.Projects.Project);
+        }); 
+</script>
+<script type="text/javascript" defer="defer"></script>
+
+</body>
 </html>

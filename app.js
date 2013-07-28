@@ -78,10 +78,10 @@ app.get('/', routes.index);
 app.io.route('tray', function(req) {
     
 	
-	setTimeout(function(){ 
+	setInterval(function(){ 
 		getXml(req);
 		
-	 }, 5000);
+	 }, 10000);
 });
  
 
