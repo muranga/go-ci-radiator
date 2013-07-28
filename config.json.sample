@@ -1,0 +1,10 @@
+{
+    "url":
+    {
+        "auth": "username:password",
+	    "host": "host.name.com",
+	    "port": "port number",
+	    "path": "/go/cctray.xml"
+
+    }
+}

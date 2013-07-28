@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/javascripts/jquery-1.10.2.min.js"></script>
+	 
+	
+	<script>
+	$(document).ready(function(){
+		io = io.connect()
+
+	
+		io.emit('tray') 
+
+	
+		io.on('talk', function(data) {
+		    $('#container').html(" ");
+			$(data.message.Projects.Project).each(function(key,project){
+				$('#container').append("<div class=item>"+project.$.name+"</div>");
+				console.log(key,project);
+			});
+		})  
+	  
+		 
+		 
+		
+	});
+	
+	</script>
+	<style type="text/css" media="screen">
+	.item { 
+		font-size:35px;
+	
+		background-color: green;
+		margin: 40px;
+		height: 100px; }
+	.item.w2 { width: 50%; }
+	</style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+	<div id="container">
+	 
+	</div>
+	
+    <p></p>
+  </body>
+</html>
