@@ -2,13 +2,14 @@
 /**
  * Module dependencies.
  */
-
+var path = require('path');
+var config_file = path.join(__dirname, 'config.json');
 var config = require('./config.js');
 var getXml= function(req){
 	
 	var parseString = require('xml2js').parseString;
 
-    config.init('config.json', function(resp) {
+    config.init(config_file, function(resp) {
         if (resp != 0) {
             console.log('Could not load config file.');
          return;
