@@ -2,9 +2,10 @@
     "url":
     {
         "auth": "username:password",
-	    "host": "host.name.com",
+	    "hostname": "host.name.com",
 	    "port": "port number",
 	    "path": "/go/cctray.xml",
-	    "protocol": "http"
-    }
+	    "protocol": "http:"
+    },
+    "protocol": "http"
 }
