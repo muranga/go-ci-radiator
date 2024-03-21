@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.3.4",
+    "express": "4.19.1",
 	"express.io": "latest",
     "ejs": "*",
     "xml2js": "latest"
